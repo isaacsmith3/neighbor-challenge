@@ -37,8 +37,8 @@ class Vehicle:
 
 @dataclass
 class VehicleRequest:
-    vehicles: List[Vehicle]
-
+    length: int
+    quantity: int
 
 @dataclass
 class LocationResult:
@@ -100,7 +100,7 @@ def greedy_solve_location(
         vehicle.length * vehicle.width * vehicle.quantity for vehicle in vehicles
     )
 
-    # Sort listings by total price (cheapest first)
+    # Sort listings by total price (the cheapest ones first)
     sorted_listings = sorted(listings, key=lambda x: x.price_in_cents)
 
     selected_listings = []
