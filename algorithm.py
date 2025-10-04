@@ -103,11 +103,11 @@ def greedy_solve_location(
     # Sort listings by total price (cheapest first)
     sorted_listings = sorted(listings, key=lambda x: x.price_in_cents)
 
-    # Greedily select listings until we have enough area
     selected_listings = []
     total_area_covered = 0
-    total_cost = 0
 
+
+    total_cost = 0
     for listing in sorted_listings:
         if total_area_covered >= total_area_needed:
             break
