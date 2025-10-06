@@ -1,7 +1,6 @@
 from algorithm import (
     Vehicle,
     Listing,
-    VehicleRequest,
     solve_multi_vehicle_storage,
     LocationResult,
 )

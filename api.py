@@ -1,19 +1,29 @@
-import fastapi # type: ignore
-from algorithm import solve_multi_vehicle_storage, Vehicle, VehicleRequest
-import uvicorn # type: ignore
+import fastapi  # type: ignore
+from algorithm import solve_multi_vehicle_storage, Vehicle
+import uvicorn  # type: ignore
 import listings
 from typing import List
+from pydantic import BaseModel
+import os
+
+
+class VehicleRequest(BaseModel):
+    length: int
+    quantity: int
+
 
 app = fastapi.FastAPI()
+
 
 @app.post("/")
 def solve_multi_vehicle_storage_api(vehicles: List[VehicleRequest]):
 
-    vehicle_objects = [Vehicle(length=v.length, quantity=v.quantity) for v in vehicles]
+    vehicle_objects = [Vehicle(length=v.length, quantity=v.quantity) for v in vehicles] # Convert Pydantic models to Vehicle dataclasses
+
 
     results = solve_multi_vehicle_storage(vehicle_objects, listings.listings)
 
-    result = [
+    return [
         {
             "location_id": r.location_id,
             "listing_ids": r.listing_ids,
@@ -22,8 +32,7 @@ def solve_multi_vehicle_storage_api(vehicles: List[VehicleRequest]):
         for r in results
     ]
 
-    return result
-
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
